@@ -85,15 +85,17 @@ export function ResultsDisplay({ totalScore, categoryScores, evaluationText, rev
             <div className="h-[350px]">
               <h3 className="text-2xl font-headline mb-2 text-center">Munkahelyi értékeid</h3>
               {isClient && (
-                 <ResponsiveContainer width="100%" height="100%">
-                    <RadarChart data={chartData} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <PolarGrid />
-                        <PolarAngleAxis dataKey="category" tick={{ fill: 'hsl(var(--foreground))', fontSize: 14 }} />
-                        <PolarRadiusAxis angle={30} domain={[0, 6]} tick={false} axisLine={false} />
-                        <Radar name="Pontszám" dataKey="value" stroke="hsl(var(--accent))" fill="hsl(var(--accent))" fillOpacity={0.6} />
-                    </RadarChart>
-                </ResponsiveContainer>
+                <ChartContainer config={chartConfig} className="h-full w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                      <RadarChart data={chartData} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>
+                          <ChartTooltip content={<ChartTooltipContent />} />
+                          <PolarGrid />
+                          <PolarAngleAxis dataKey="category" tick={{ fill: 'hsl(var(--foreground))', fontSize: 14 }} />
+                          <PolarRadiusAxis angle={30} domain={[0, 6]} tick={false} axisLine={false} />
+                          <Radar name="Pontszám" dataKey="value" stroke="hsl(var(--accent))" fill="hsl(var(--accent))" fillOpacity={0.6} />
+                      </RadarChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
               )}
             </div>
           </div>
