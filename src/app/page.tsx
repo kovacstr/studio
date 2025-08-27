@@ -8,9 +8,6 @@ export default function Home() {
   return (
     <div className="container mx-auto px-4 py-8 md:py-16 flex flex-col items-center text-center">
       <Card className="w-full max-w-3xl overflow-hidden shadow-2xl animate-in fade-in-50 duration-1000">
-        <div className="bg-primary/10 p-6 md:p-10">
-          <Image src="https://picsum.photos/800/400" width={800} height={400} alt="A group of young people collaborating" data-ai-hint="youth collaboration" className="w-full h-auto rounded-lg object-cover" />
-        </div>
         <CardHeader className="p-6 md:p-10">
           <CardTitle className="text-4xl md:text-5xl font-headline font-bold text-primary">
             PályaNavigátor

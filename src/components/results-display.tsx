@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { BarChart, FileText, Redo, Share2, Linkedin, MessageCircle, Link as LinkIcon } from 'lucide-react';
+import { BarChart, FileText, Redo, Share2, Linkedin, MessageCircle, Link as LinkIcon, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import {
   PolarGrid,
@@ -16,6 +16,8 @@ import {
 } from 'recharts';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { useToast } from '@/hooks/use-toast';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+
 
 type ResultsDisplayProps = {
   totalScore: number;
@@ -26,6 +28,7 @@ type ResultsDisplayProps = {
 
 export function ResultsDisplay({ totalScore, categoryScores, evaluationText, reviewData }: ResultsDisplayProps) {
   const [isClient, setIsClient] = useState(false);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -112,25 +115,38 @@ export function ResultsDisplay({ totalScore, categoryScores, evaluationText, rev
         </CardFooter>
       </Card>
       
-      <Card>
-        <CardHeader>
-          <CardTitle>Válaszaid részletesen</CardTitle>
-          <CardDescription>Itt visszanézheted, mit válaszoltál az egyes kérdésekre.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Accordion type="single" collapsible className="w-full">
-            {reviewData.map((item, index) => (
-              <AccordionItem value={`item-${index}`} key={index}>
-                <AccordionTrigger>{index + 1}. {item.question}</AccordionTrigger>
-                <AccordionContent>
-                  <p><strong>Válaszod:</strong> {item.answer}</p>
-                  <p><strong>Pontszám:</strong> {item.score}</p>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </CardContent>
-      </Card>
+      <Collapsible open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
+        <div className="flex justify-center">
+            <CollapsibleTrigger asChild>
+                <Button variant="ghost">
+                    Válaszok részletezése
+                    <ChevronDown className={`ml-2 h-4 w-4 transition-transform ${isDetailsOpen ? 'rotate-180' : ''}`} />
+                </Button>
+            </CollapsibleTrigger>
+        </div>
+
+        <CollapsibleContent>
+            <Card className="mt-4">
+                <CardHeader>
+                <CardTitle>Válaszaid részletesen</CardTitle>
+                <CardDescription>Itt visszanézheted, mit válaszoltál az egyes kérdésekre.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                <Accordion type="single" collapsible className="w-full">
+                    {reviewData.map((item, index) => (
+                    <AccordionItem value={`item-${index}`} key={index}>
+                        <AccordionTrigger>{index + 1}. {item.question}</AccordionTrigger>
+                        <AccordionContent>
+                        <p><strong>Válaszod:</strong> {item.answer}</p>
+                        <p><strong>Pontszám:</strong> {item.score}</p>
+                        </AccordionContent>
+                    </AccordionItem>
+                    ))}
+                </Accordion>
+                </CardContent>
+            </Card>
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   );
 }
