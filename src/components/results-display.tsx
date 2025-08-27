@@ -70,6 +70,8 @@ export function ResultsDisplay({ totalScore, categoryScores, evaluationText, rev
     }
   };
 
+  const allAccordionItems = reviewData.map((_, index) => `item-${index}`);
+
 
   return (
     <div className="space-y-8">
@@ -132,7 +134,7 @@ export function ResultsDisplay({ totalScore, categoryScores, evaluationText, rev
                 <CardDescription>Itt visszanézheted, mit válaszoltál az egyes kérdésekre.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                <Accordion type="single" collapsible className="w-full">
+                <Accordion type="multiple" className="w-full" defaultValue={allAccordionItems}>
                     {reviewData.map((item, index) => (
                     <AccordionItem value={`item-${index}`} key={index}>
                         <AccordionTrigger>{index + 1}. {item.question}</AccordionTrigger>
