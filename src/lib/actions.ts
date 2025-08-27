@@ -38,7 +38,12 @@ export async function login(prevState: any, formData: FormData) {
   
   const { username, password } = parsed.data;
 
-  if (username === process.env.ADMIN_USER && password === process.env.ADMIN_PASS) {
+  // These should be set in your environment variables for production
+  const adminUser = process.env.ADMIN_USER || 'admin';
+  const adminPass = process.env.ADMIN_PASS || 'admin';
+
+
+  if (username === adminUser && password === adminPass) {
     const expires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
     const session = await encrypt({ user: username, expires });
 
@@ -67,7 +72,13 @@ export async function downloadCsv() {
   }
 
   if (submissions.length === 0) {
-    return new Response('No data to export', { status: 200 });
+    // Return an empty CSV file with headers if there is no data
+    const header = ['ID', 'Timestamp', ...questions].join(',');
+    const csvContent = header + '\n';
+    const headers = new Headers();
+    headers.set('Content-Type', 'text/csv');
+    headers.set('Content-Disposition', `attachment; filename="palyanavigator_valaszok.csv"`);
+    return new Response(csvContent, { headers });
   }
 
   const header = ['ID', 'Timestamp', ...questions].join(',');
