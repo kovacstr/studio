@@ -29,7 +29,7 @@ export async function submitQuestionnaire(answers: number[]) {
   }
 }
 
-export async function login(formData: FormData) {
+export async function login(prevState: any, formData: FormData) {
   const parsed = loginSchema.safeParse(Object.fromEntries(formData.entries()));
 
   if (!parsed.success) {
